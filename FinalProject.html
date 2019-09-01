@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Web Contact Saver</title>
+    <style>
+        .formBox{
+            padding: 0.5rem 2rem;
+            border-style: solid;
+            border-width: 3px;
+            color: #f0db1f;
+        }
+        body {
+            background-color: midnightblue;
+        }
+        
+    </style>
+</head>
+<body>
+    <center>
+    <form>
+        <div class="formBox">
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" placeholder="Name"/>
+        </div>
+        <div class="formBox">
+            <label for="Email">Email:</label>
+            <input type="text" id="Email" placeholder="Email"/>
+        </div>
+        <div class="formBox">
+            <button id="btn">Save Contact</button>
+        </div>
+        <div id="msg">
+            <pre></pre>
+        </div>
+    </form>
+    </center>
+    <script>
+        let contacts = [];
+        // example {id:1592304983049, title: 'Deadpool', year: 2015}
+        const addContact = (ev)=>{
+            ev.preventDefault();  //to stop the form submitting
+            let contact = {
+                id: Date.now(),
+                title: document.getElementById('Name').value,
+                year: document.getElementById('Email').value
+            }
+            contacts.push(contact);
+            document.forms[0].reset(); // to clear the form for the next entries
+            //document.querySelector('form').reset();
+            //for display purposes only
+            console.warn('added' , {contacts} );
+            let pre = document.querySelector('#msg pre');
+            pre.textContent = '\n' + JSON.stringify(contacts, '\t', 2);
+            //saving to localStorage
+            localStorage.setItem('ContactList', JSON.stringify(contacts) );
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            document.getElementById('btn').addEventListener('click', addContact);
+        });
+    </script>
+</body>
+</html>
